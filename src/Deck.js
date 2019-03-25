@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Card from './Card';
+import Button from './Button';
 const DECK_OF_CARD_URL = `https://deckofcardsapi.com/api/deck`;
 
 class Deck extends Component {
@@ -8,15 +9,14 @@ class Deck extends Component {
         super(props);
         this.state = { 
           deckID: null,
-          card: []
+          card: [],
+          button: "Draw a card!"
         };
       }
-
 
     async componentDidMount(){
         let deckOfCards = await axios.get(`${DECK_OF_CARD_URL}/new/shuffle/?deck_count=1`);
         this.setState( {deckID: deckOfCards.deck_id} );
-      
     }
       
     async getCard(){
@@ -24,10 +24,12 @@ class Deck extends Component {
         const newState = newCard.cards[0].image;
         this.setState ({ card: [...this.state.card, newState] });
     }
+
     render() {
         return (
             <div>
-                <Card/>
+                <Card image={this.card[0]}/>
+                <Button handleCard={this.getCard} type={this.state.button}/>
             </div>
         );
     }
