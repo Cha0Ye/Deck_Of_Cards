@@ -33,8 +33,12 @@ class Deck extends Component {
     }
 
     render() {
+        let button;
         if (this.state.cardsLeft === 0) {
-
+            this.setState({ button: "New Deck?" });
+            return (
+                <Button drawOrReset={this.state.button} />
+            )
         }
         const cards = this.state.card.map(c => {
             // FixMe use deck code not uuid
@@ -43,10 +47,40 @@ class Deck extends Component {
         return (
             <div>
                 <div>{cards}</div>
-                <Button handleCard={this.getCard} type={this.state.button}/>
+                <Button
+                 handleCard={this.getCard}
+                 drawOrReset={this.state.button}
+                 cardsLeft={this.state.cardsLeft}/>
             </div>
         );
     }
 }
 
 export default Deck;
+
+
+
+// I had some gooed ideas and the linting went crazy. Will implement later.
+
+// if (this.state.cardsLeft === 0) {
+//     this.setState({ button: "New Deck?" })
+//     return (
+//             <Button
+//             reset={this.refreshDeck}
+//             drawOrReset={this.state.buttonState}
+//             cardsLeft={this.state.cardsLeft}/>
+//         );
+//     } else {
+//         return (
+//             <Button
+//             handleCard={this.getCard}
+//             drawOrReset={this.state.buttonState}
+//             cardsLeft={this.state.cardsLeft}/>
+//         );
+//     }
+
+// async refreshDeck() {
+//     let deckOfCards = await axios.get(`${DECK_OF_CARD_URL}/new/shuffle/?deck_count=1`);
+//     this.setState( {deckID: deckOfCards.data.deck_id} );
+//     this.getCard();
+// }
